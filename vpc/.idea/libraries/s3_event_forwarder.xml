@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="s3_event_forwarder">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/deployment/UAT-Application/plus/s3_event_forwarder/s3_event_forwarder.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

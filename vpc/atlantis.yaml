@@ -1,5 +1,5 @@
 projects:
-  - dir: deployment/UAT-Infra/plus
+  - dir: vpc/deployment/UAT-Infra/plus
     name: uat_infra
     workflow: uat_infra
 
