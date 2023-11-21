@@ -10,7 +10,6 @@ workflows:
       steps:
         - init
         - plan
-
     apply:
       steps:
         - apply
@@ -20,7 +19,6 @@ workflows:
       steps:
         - init
         - run: terragrunt plan -input=false
-
     apply:
       steps:
         - run: terragrunt apply -input=false
