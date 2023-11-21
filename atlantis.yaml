@@ -14,4 +14,12 @@ workflows:
     apply:
       steps:
         - apply
+  terragrunt:
+    plan:
+      steps:
+        - init
+        - run: terragrunt plan -input=false
 
+    apply:
+      steps:
+        - run: terragrunt apply -input=false
