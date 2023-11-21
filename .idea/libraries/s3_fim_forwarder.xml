@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="s3_fim_forwarder">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/vpc/deployment/UAT-Application/plus/s3_fim_forwarder.zip!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
