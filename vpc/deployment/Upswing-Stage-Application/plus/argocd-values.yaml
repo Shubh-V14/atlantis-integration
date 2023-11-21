@@ -1,0 +1,57 @@
+global:
+  image: 
+    repository: 776633114724.dkr.ecr.ap-south-1.amazonaws.com/argoproj/argocd
+    tag: "v2.6.15"
+dex:
+  enabled: false
+controller:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2500Mi
+    requests:
+      cpu: 200m
+      memory: 2000Mi
+repoServer:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 600Mi
+    requests:
+      cpu: 200m
+      memory: 500Mi
+redis:
+  enabled: false 
+externalRedis:
+  host: ""
+server: 
+  resources:
+    limits:
+      cpu: 100m
+      memory: 300Mi
+    requests:
+      cpu: 20m
+      memory: 200Mi
+  config:
+    url: "https://argocd.stage.internal.upswing.one"
+    # Argo CD instance label key
+    application.instanceLabelKey: argocd.argoproj.io/instance
+
+    # Enabled logs RBAC enforcement
+    # Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/upgrading/2.3-2.4/#enable-logs-rbac-enforcement
+    server.rbac.log.enforce.enable: "false"
+
+    # exec.enabled indicates whether the UI exec feature is enabled. It is disabled by default.
+    # Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac/#exec-resource
+    exec.enabled: "false"
+
+    oidc.config: |-
+      name: Keycloak
+      issuer: https://idp.stage-upswing.one/realms/Upswing1
+      clientID: argocd
+      clientSecret: $keycloak_client_secret
+      requestedScopes: ["openid", "profile", "email", "groups"]
+      redirectURI: https://argocd.stage.internal.upswing.one/applications
+configs:
+  params:
+    server.insecure: true

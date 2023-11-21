@@ -1,0 +1,16 @@
+projects:
+  - dir: deployment/UAT-Infra/plus
+    name: uat_infra
+    workflow: uat_infra
+
+version: 3
+workflows:
+  uat_infra:
+    plan:
+      steps:
+        - init
+        - plan
+
+    apply:
+      steps:
+        - apply
