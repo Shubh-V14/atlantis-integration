@@ -2,9 +2,6 @@ projects:
   - dir: deployment/UAT-Infra/plus
     name: uat_infra
     workflow: uat_infra
-    workspace: uat_infra
-    autoplan:
-      enabled: true
 
 version: 3
 workflows:
