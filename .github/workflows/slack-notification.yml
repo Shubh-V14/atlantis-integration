@@ -44,6 +44,14 @@ jobs:
           # Print the list of changed files
           echo "Changed Files:"
           echo "$CHANGED_FILES" | grep "atlantis-integration"
+      
+      - name: Show commit id
+        run: |
+          COMMIT_ID="$GITHUB_SHA"
+
+          # Print the list of changed files
+          echo "COMMIT ID:"
+          echo "$COMMIT_ID"
 
   # "notify" workflow for slack notification
   notify:
