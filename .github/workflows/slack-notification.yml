@@ -52,7 +52,16 @@ jobs:
           # Print the list of changed files
           echo "COMMIT ID:"
           echo "$COMMIT_ID"
+      
+      - name: Show Files
+        run: |
+          FILES=$(git show "$GITHUB_SHA" --patch  | grep -E "\-\-\-|\+\+\+")
 
+          # Print the list of changed files
+          echo "FILES :"
+          echo "$FILES"
+ 
+  
   # "notify" workflow for slack notification
   notify:
 
