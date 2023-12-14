@@ -23,5 +23,8 @@ jobs:
           Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
+    - name: Send Notification to Slack
       env:
         SLACK_OAUTH_TOKEN: ${{ secrets.SLACK_OAUTH_TOKEN }}
+      run: |
+        slack/notify --token $SLACK_OAUTH_TOKEN --channel test-alerts --text "New commit pushed to main branch!"
