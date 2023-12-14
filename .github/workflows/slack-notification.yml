@@ -60,7 +60,7 @@ jobs:
           # Print the list of changed files
           #echo "FILES :"
           git show "$GITHUB_SHA" --patch
-          git show "$GITHUB_SHA" --patch | grep -E "\-\-\-|\+\+\+"
+          git show "$GITHUB_SHA" --patch | grep "\-\-\-|\+\+\+"
  
   
   # "notify" workflow for slack notification
