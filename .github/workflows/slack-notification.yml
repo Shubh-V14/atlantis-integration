@@ -39,7 +39,7 @@ jobs:
 
           # Fetch the list of modified files
           echo "$BRANCH_NAME"
-          CHANGED_FILES=$(git diff main..$BRANCH_NAME)
+          CHANGED_FILES=$(git logs --raw)
 
           # Print the list of changed files
           echo "Changed Files:"
