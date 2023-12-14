@@ -55,11 +55,11 @@ jobs:
       
       - name: Show Files
         run: |
-          FILES= git show "$GITHUB_SHA" --patch
+          #FILES= git show "$GITHUB_SHA" --patch
           
           # Print the list of changed files
-          echo "FILES :"
-          echo "$FILES" | grep -E "\-\-\-|\+\+\+"
+          #echo "FILES :"
+          echo "git show "$GITHUB_SHA" --patch | grep -E '\-\-\-|\+\+\+'"
  
   
   # "notify" workflow for slack notification
