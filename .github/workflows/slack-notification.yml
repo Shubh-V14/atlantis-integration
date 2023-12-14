@@ -22,12 +22,13 @@ jobs:
         # action/checkout@v2 checks-out your repo under github workspace.
         uses: actions/checkout@v2
       
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
-
-      - name: Check output
-        run: echo ${{ steps.vars.outputs.short_ref }}
+      - name: List Changed Files
+        run: |
+          # Fetch the list of modified files
+          CHANGED_FILES=${{github.ref_name}}
+          # Print the list of changed files
+          echo "Changed Files:"
+          echo "$CHANGED_FILES"
 
   # "notify" workflow for slack notification
   notify:
