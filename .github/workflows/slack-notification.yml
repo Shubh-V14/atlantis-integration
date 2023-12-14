@@ -8,9 +8,11 @@ on:
       - closed
 
 jobs:
-  build:
-    name: Build and Test Go Application
+  notify:
+    name: Notify on Slack
     runs-on: ubuntu-latest
+
+    if: ${{ github.base_ref == 'main' && github.event_name == 'pull_request' }}
 
     steps:
       - name: Checkout Source Code
@@ -19,26 +21,19 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Print Branch Name
+        id: get_branch
         run: |
           BRANCH=$(git rev-parse --abbrev-ref HEAD | tr -d '[:space:]')
-          echo "::set-output name=BRANCH_NAME::$BRANCH"
+          echo "BRANCH_NAME=$BRANCH" >> $GITHUB_OUTPUT
 
       - name: List Changed Files
         run: |
           CHANGED_FILE=$(git log --patch)
           echo "::set-output name=CHANGED_FILES::$CHANGED_FILE"
 
-  notify:
-    name: Notify on Slack
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    if: ${{ github.base_ref == 'main' && github.event_name == 'pull_request' }}
-
-    steps:
       - name: Get Outputs
         id: get-outputs
-        run: echo "BRANCH_NAME=${{ needs.build.outputs.BRANCH_NAME }}\nCHANGED_FILES=${{ needs.build.outputs.CHANGED_FILES }}"
+        run: echo "${{ steps.get_branch.outputs.BRANCH_NAME}}"
 
       - name: Notify on Slack
         uses: abinoda/slack-action@master
