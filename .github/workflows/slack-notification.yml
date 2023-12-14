@@ -36,6 +36,15 @@ jobs:
       - name: Get Outputs
         run: echo "${{ steps.get_branch.outputs.BRANCH_NAME}} \n ${{steps.get_outputs.outputs.CHANGED_FILES}}"
 
+      - name: Iterate Over Lines
+        id: iterate
+        run: |
+          IFS=$'\n'  # Set Internal Field Separator to newline
+          for line in ${{ steps.iterate.outputs.CHANGED_FILES }}; do
+            echo "Processing line: $line"
+            # Add your logic for each line here
+          done
+      
       - name: Notify on Slack
         uses: abinoda/slack-action@master
         env:
