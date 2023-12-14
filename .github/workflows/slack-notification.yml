@@ -15,6 +15,16 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Get Modified Files
+      run: |
+        # Fetch the list of modified files
+        MODIFIED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
+        # Print the list for verification (optional)
+        echo "Modified Files: $MODIFIED_FILES"
+
+      id: get-modified-files
+
     - name: Send PR Changes to Slack
       uses: rtCamp/action-slack-notify@v2.2.0  # Replace with the latest version
       with:
@@ -23,5 +33,7 @@ jobs:
           Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
+          Modified Files:
+          ${{ steps.get-modified-files.outputs.MODIFIED_FILES }}
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
