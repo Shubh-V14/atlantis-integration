@@ -36,16 +36,10 @@ jobs:
         run: |
           # Fetch the list of modified files
           echo "$BRANCH_NAME"
-          CHANGED_FILES=$(git log --patch | grep "atlantis-integration")
+          CHANGED_FILES=$(git log --patch)
 
-          # Print the list of changed files
-          #GREP_RESULT=$(echo "$CHANGED_FILES" | grep "atlantis-integration")
-
-          echo $CHANGED_FILES
-          echo "PRINTED OUTPUT"
-
-          # Set the environment variable with the grep result
-          echo "GREP_RESULT=${GREP_RESULT}" >> "$GITHUB_ENV"
+          echo "${CHANGED_FILES}"  
+          echo "CHANGED_FILES=$CHANGED_FILES" >> "$GITHUB_ENV"
 
   
   # "notify" workflow for slack notification
