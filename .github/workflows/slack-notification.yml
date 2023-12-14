@@ -25,7 +25,7 @@ jobs:
       - name: List Changed Files
         run: |
           # Fetch the list of modified files
-          CHANGED_FILES=$(git diff origin/${{github.ref}})
+          CHANGED_FILES=${{github.ref}}
 
           # Print the list of changed files
           echo "Changed Files:"
