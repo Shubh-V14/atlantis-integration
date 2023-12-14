@@ -30,10 +30,10 @@ jobs:
         id: get_outputs
         run: |
           CHANGED_FILE=$(git log --patch)
-          echo "CHANGED_FILES=$CHANGED_FILE" >> $GITHUB_OUTPUT
+          echo "::set-output name=CHANGED_FILES::$CHANGED_FILES"
 
       - name: Get Outputs
-        run: echo "${{ steps.get_outputs.outputs.CHANGED_FILES}}"
+        run: echo "${{ steps.get_branch.outputs.BRANCH_NAME}} \n ${{steps.get_outputs.outputs.CHANGED_FILES}}"
 
       - name: Notify on Slack
         uses: abinoda/slack-action@master
