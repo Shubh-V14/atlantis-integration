@@ -55,8 +55,8 @@ jobs:
     steps:
       - name: List Environment Variables
         run: |
-          echo $CHANGED_FILES
-          echo $BRANCH_NAME
+          echo "$CHANGED_FILES"
+          echo "$BRANCH_NAME"
 
       - uses: abinoda/slack-action@master
         env:
