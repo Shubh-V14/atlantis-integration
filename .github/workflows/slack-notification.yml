@@ -41,7 +41,7 @@ jobs:
           # Print the list of changed files
           #GREP_RESULT=$(echo "$CHANGED_FILES" | grep "atlantis-integration")
 
-          echo $GREP_RESULT
+          echo $CHANGED_FILES
           echo "PRINTED OUTPUT"
 
           # Set the environment variable with the grep result
