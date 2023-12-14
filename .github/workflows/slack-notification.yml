@@ -6,11 +6,7 @@ on:
       - opened
       - synchronize
       - closed
-
-env:
-  CHANGED_FILES: ""
-  BRANCH_NAME: ""
-
+      
 jobs:
   build:
     name: Build and Test Go Application
