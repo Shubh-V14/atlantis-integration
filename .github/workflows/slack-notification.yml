@@ -16,13 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # steps can run commands, setup tasks or run an action
-    steps: 
-      - name: Setup Go 1.16
-        # uses selects an action to run as part of a step in your job.
-        # This action sets up a go environment for use in actions
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.16.3'
+    steps:
 
       - name: Checkout Source Code
         # action/checkout@v2 checks-out your repo under github workspace.
