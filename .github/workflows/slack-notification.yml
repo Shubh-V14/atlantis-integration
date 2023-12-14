@@ -25,7 +25,7 @@ jobs:
       - name: List Changed Files
         run: |
           # Fetch the list of modified files
-          CHANGED_FILES=${{github.ref_name}}
+          CHANGED_FILES=$(git branch)
           # Print the list of changed files
           echo "Changed Files:"
           echo "$CHANGED_FILES"
