@@ -43,3 +43,4 @@ jobs:
           ${{ steps.get-modified-files.outputs.MODIFIED_FILES }}
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_MESSAGE: "Check alert"
