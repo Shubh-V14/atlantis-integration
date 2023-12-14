@@ -21,14 +21,29 @@ jobs:
       - name: Checkout Source Code
         # action/checkout@v2 checks-out your repo under github workspace.
         uses: actions/checkout@v2
-      
+        with:
+            ref: ${{ github.head_ref }}
+
+      - name: Print Branch Name
+        run: |
+          # Fetch the branch name
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+
+          # Print the branch name
+          echo "BRANCH_NAME=$BRANCH_NAME" >> "$GITHUB_ENV"
+
       - name: List Changed Files
         run: |
+          # Navigate to the repository directory
+          cd $GITHUB_WORKSPACE
+
           # Fetch the list of modified files
-          CHANGED_FILES=${{github.ref_name}}
+          echo "$BRANCH_NAME"
+          CHANGED_FILES=$(git log --patch)
+
           # Print the list of changed files
           echo "Changed Files:"
-          echo "$CHANGED_FILES"
+          echo "$CHANGED_FILES" | grep "atlantis-integration"
 
   # "notify" workflow for slack notification
   notify:
