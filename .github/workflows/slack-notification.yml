@@ -34,34 +34,16 @@ jobs:
 
       - name: List Changed Files
         run: |
-          # Navigate to the repository directory
-          cd $GITHUB_WORKSPACE
-
           # Fetch the list of modified files
           echo "$BRANCH_NAME"
           CHANGED_FILES=$(git log --patch)
 
           # Print the list of changed files
-          echo "Changed Files:"
-          echo "$CHANGED_FILES" | grep "atlantis-integration"
-      
-      - name: Show commit id
-        run: |
-          COMMIT_ID="$GITHUB_SHA"
+          GREP_RESULT=$(echo "$CHANGED_FILES" | grep "atlantis-integration")
 
-          # Print the list of changed files
-          echo "COMMIT ID:"
-          echo "$COMMIT_ID"
-      
-      - name: Show Files
-        run: |
-          #FILES= git show "$GITHUB_SHA" --patch
-          
-          # Print the list of changed files
-          #echo "FILES :"
-          git show "$GITHUB_SHA" --patch
-          git show "$GITHUB_SHA" --patch | grep "\-\-\-|\+\+\+"
- 
+          # Set the environment variable with the grep result
+          echo "GREP_RESULT=$GREP_RESULT" >> $GITHUB_ENV
+
   
   # "notify" workflow for slack notification
   notify:
