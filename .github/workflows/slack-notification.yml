@@ -27,13 +27,13 @@ jobs:
           echo "BRANCH_NAME=$BRANCH" >> $GITHUB_OUTPUT
 
       - name: List Changed Files
+        id: get_outputs
         run: |
           CHANGED_FILE=$(git log --patch)
           echo "CHANGED_FILES=$CHANGED_FILE" >> $GITHUB_OUTPUT
 
       - name: Get Outputs
-        id: get-outputs
-        run: echo "${{ steps.get_branch.outputs.CHANGED_FILES}}"
+        run: echo "${{ steps.get_outputs.outputs.CHANGED_FILES}}"
 
       - name: Notify on Slack
         uses: abinoda/slack-action@master
