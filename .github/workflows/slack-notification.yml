@@ -53,6 +53,10 @@ jobs:
     if: ${{ github.base_ref == 'main' && github.event_name == 'pull_request' }}
 
     steps:
+      - name: List Environment Variables
+        run: |
+          echo $CHANGED_FILES
+          echo $BRANCH_NAME
 
       - uses: abinoda/slack-action@master
         env:
