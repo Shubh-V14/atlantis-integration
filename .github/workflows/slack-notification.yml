@@ -39,7 +39,7 @@ jobs:
 
           # Fetch the list of modified files
           echo "$BRANCH_NAME"
-          CHANGED_FILES=$(git logs --raw)
+          CHANGED_FILES=$(git log --patch)
 
           # Print the list of changed files
           echo "Changed Files:"
