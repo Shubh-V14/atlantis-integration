@@ -43,7 +43,7 @@ jobs:
 
           # Print the list of changed files
           echo "Changed Files:"
-          echo "$CHANGED_FILES"
+          echo "$CHANGED_FILES" | grep "atlantis-integration"
 
   # "notify" workflow for slack notification
   notify:
