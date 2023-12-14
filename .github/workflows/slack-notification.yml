@@ -19,6 +19,6 @@ jobs:
       run: |
         curl -X POST -H 'Content-type: application/json' \
           --data '{"text":"New commit pushed to main branch!"}' \
-          https://slack.com/api/chat.postMessage?token=${SLACK_OAUTH_TOKEN}&channel=#test-alerts
+          https://slack.com/api/chat.postMessage?token=${SLACK_OAUTH_TOKEN}&channel=test-alerts
       env:
-        SLACK_OAUTH_TOKEN: ${{ secrets.SLACK_OAUTH_TOKEN }}
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
