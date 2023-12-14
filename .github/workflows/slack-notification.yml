@@ -15,10 +15,13 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Send Notification to Slack
-      run: |
-        curl -X POST -H 'Content-type: application/json; charset=utf-8' \
-          --data '{"text":"New commit pushed to main branch!"}' \
-          "https://slack.com/api/chat.postMessage?token=${SLACK_OAUTH_TOKEN}&channel=test-alerts"
+    - name: Send PR Changes to Slack
+      uses: rtCamp/action-slack-notify@v2.2.0  # Replace with the latest version
+      with:
+        status: ${{ job.status }}
+        text: |
+          Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
+          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
+          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
       env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
