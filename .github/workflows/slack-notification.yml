@@ -8,39 +8,30 @@ on:
       - closed
 
 jobs:
-  send-to-slack:
+  build:
+    name: Build and Test Go Application
+    #The type of runner on which job will run
     runs-on: ubuntu-latest
 
+  notify:
+
+    name: Notify on Slack
+    runs-on: ubuntu-latest
+    # Only run this workflow when "build" workflow succeeds
+    needs: [build]
+  
+    # Only run this workflow if it target is main branch on pull_request event
+    if: ${{ github.base_ref == 'main' && github.event_name == 'pull_request' }}
+  
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Get Modified Files
-      run: |
-        # Fetch the list of modified files
-        MODIFIED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-
-        # Print the list for verification
-        echo "Modified Files: $MODIFIED_FILES"
-
-      id: get-modified-files
-
-    - name: Send PR Changes to Slack
-      run: |
-        docker run --name ghcriortcampactionslacknotifyv220_7e6a28 \
-          --label 89d371 --workdir /github/workspace --rm \
-          -e "SLACK_WEBHOOK" \
-          -e "STATUS=${{ job.status }}" \
-          -e "TEXT=Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
-          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
-          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
-          Modified Files:
-          ${{ steps.get-modified-files.outputs.MODIFIED_FILES }}" \
-          -v "/var/run/docker.sock":"/var/run/docker.sock" \
-          -v "/home/runner/work/_temp/_github_home":"/github/home" \
-          -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" \
-          -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" \
-          -v "/home/runner/work/atlantis-integration/atlantis-integration":"/github/workspace" \
-          ghcr.io/rtcamp/action-slack-notify:v2.2.0
-      env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  
+      - uses: abinoda/slack-action@master
+        env:
+          # required
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          # custom message to send to slack
+          args: '{\"channel\":\"test-alerts\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Pull Request:* ${{ github.event.pull_request.title }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Contributor :* ${{ github.event.pull_request.user.login }}\n*Request State:* ${{ github.event.pull_request.state }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"<${{ github.event.pull_request.html_url }}|View Pull Request>\"}}]}' 
+        
+        # Pick up events even if the job is success.
+        if: success()
