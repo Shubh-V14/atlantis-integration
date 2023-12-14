@@ -29,8 +29,9 @@ jobs:
       - name: List Changed Files
         id: get_outputs
         run: |
-          CHANGED_FILE=$(git log --patch)
-          echo "::set-output name=CHANGED_FILES::$CHANGED_FILES"
+          CHANGED_FILE=$(git log --patch | grep "atlantis-integration")
+          echo "$atlantis-integration"
+          echo "::set-output name=CHANGED_FILES::$CHANGED_FILE"
 
       - name: Get Outputs
         run: echo "${{ steps.get_branch.outputs.BRANCH_NAME}} \n ${{steps.get_outputs.outputs.CHANGED_FILES}}"
