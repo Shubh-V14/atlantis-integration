@@ -25,22 +25,16 @@ jobs:
 
       id: get-modified-files
 
-    - name: Debug Git Information
-      run: |
-        git rev-parse HEAD
-        git log -n 1
-        git branch -a
-
     - name: Send PR Changes to Slack
       uses: rtCamp/action-slack-notify@v2.2.0
       with:
-        status: ${{ job.status }}
-        text: |
-          Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
+        entryPoint: entrypoint.sh
+        args: |
+          --status="${{ job.status }}"
+          --text="Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
           Modified Files:
-          ${{ steps.get-modified-files.outputs.MODIFIED_FILES }}
+          ${{ steps.get-modified-files.outputs.MODIFIED_FILES }}"
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_MESSAGE: "Check alert"
