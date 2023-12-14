@@ -8,23 +8,41 @@ on:
       - closed
 
 jobs:
+  # "build" workflow
   build:
+
     name: Build and Test Go Application
     #The type of runner on which job will run
     runs-on: ubuntu-latest
 
+    # steps can run commands, setup tasks or run an action
+    steps:
+
+      - name: Checkout Source Code
+        # action/checkout@v2 checks-out your repo under github workspace.
+        uses: actions/checkout@v2
+      
+      - name: List Changed Files
+        run: |
+          # Fetch the list of modified files
+          CHANGED_FILES=${{github.ref_name}}
+          # Print the list of changed files
+          echo "Changed Files:"
+          echo "$CHANGED_FILES"
+
+  # "notify" workflow for slack notification
   notify:
 
     name: Notify on Slack
     runs-on: ubuntu-latest
     # Only run this workflow when "build" workflow succeeds
     needs: [build]
-  
+
     # Only run this workflow if it target is main branch on pull_request event
     if: ${{ github.base_ref == 'main' && github.event_name == 'pull_request' }}
-  
+
     steps:
-  
+
       - uses: abinoda/slack-action@master
         env:
           # required
