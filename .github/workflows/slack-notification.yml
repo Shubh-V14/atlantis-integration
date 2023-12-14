@@ -26,15 +26,21 @@ jobs:
       id: get-modified-files
 
     - name: Send PR Changes to Slack
-      uses: rtCamp/action-slack-notify@v2.2.0
-      with:
-        entryPoint: entrypoint.sh
-        args: |
-          --status="${{ job.status }}"
-          --text="Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
+      run: |
+        docker run --name ghcriortcampactionslacknotifyv220_7e6a28 \
+          --label 89d371 --workdir /github/workspace --rm \
+          -e "SLACK_WEBHOOK" \
+          -e "STATUS=${{ job.status }}" \
+          -e "TEXT=Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
           ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
           Modified Files:
-          ${{ steps.get-modified-files.outputs.MODIFIED_FILES }}"
+          ${{ steps.get-modified-files.outputs.MODIFIED_FILES }}" \
+          -v "/var/run/docker.sock":"/var/run/docker.sock" \
+          -v "/home/runner/work/_temp/_github_home":"/github/home" \
+          -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" \
+          -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" \
+          -v "/home/runner/work/atlantis-integration/atlantis-integration":"/github/workspace" \
+          ghcr.io/rtcamp/action-slack-notify:v2.2.0
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
