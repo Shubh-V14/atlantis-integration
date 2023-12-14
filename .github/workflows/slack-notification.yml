@@ -39,7 +39,7 @@ jobs:
           CHANGED_FILES=$(git log --patch)
 
           echo "${CHANGED_FILES}"  
-          echo "CHANGED_FILES=$CHANGED_FILES" >> "$GITHUB_ENV"
+          echo $CHANGED_FILES >> $GITHUB_ENV
 
   
   # "notify" workflow for slack notification
