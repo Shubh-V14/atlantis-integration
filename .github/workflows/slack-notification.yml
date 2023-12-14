@@ -42,7 +42,7 @@ jobs:
           GREP_RESULT=$(echo "$CHANGED_FILES" | grep "atlantis-integration")
 
           # Set the environment variable with the grep result
-          echo "GREP_RESULT=$GREP_RESULT" >> $GITHUB_ENV
+          echo "GREP_RESULT=$GREP_RESULT" >> "$GITHUB_ENV"
 
   
   # "notify" workflow for slack notification
