@@ -1,0 +1,31 @@
+name: Send PR Changes to Slack
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - closed
+
+jobs:
+  send-to-slack:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Send PR Changes to Slack
+      uses: rtCamp/action-slack-notify@v3
+      env:
+        SLACK_OAUTH_TOKEN: ${{ secrets.SLACK_OAUTH_TOKEN }}
+      with:
+        status: ${{ job.status }}
+        text: |
+          Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
+          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
+          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
+        channel: '#test-alerts'
+        username: 'GitHub Actions'
+        icon_emoji: ':github:'
+        
