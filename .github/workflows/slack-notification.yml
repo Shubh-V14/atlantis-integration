@@ -1,4 +1,5 @@
-name: Send GitHub Actions Notification to Slack
+# Make a small change to trigger GitHub Actions cache refresh
+name: Send PR Changes to Slack
 
 on:
   pull_request:
@@ -15,16 +16,13 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Get PR Information
-      id: pr_info
-      run: |
-        echo "::set-output name=TITLE::$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" ${{ github.api_url }}/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} | jq -r .title)"
-        echo "::set-output name=COMMITS::$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" ${{ github.api_url }}/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits | jq -r '.[].commit.message')"
-
-    - name: Send Notification to Slack
+    - name: Send PR Changes to Slack
+      uses: rtCamp/action-slack-notify@latest
+      with:
+        status: ${{ job.status }}
+        text: |
+          Pull Request ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${{ github.event.pull_request.number }}:
+          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/compare/${{ github.event.before }}...${{ github.sha }}
+          ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${{ github.run_id }}
       env:
-        SLACK_OAUTH_TOKEN: ${{ secrets.SLACK_OAUTH_TOKEN }}
-      run: |
-        message="New pull request: *${{ steps.pr_info.outputs.TITLE }}*"
-        message+="\nCommits:\n${{ steps.pr_info.outputs.COMMITS }}"
-        slack/notify --token $SLACK_OAUTH_TOKEN --channel test-alerts --text "$message"
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
