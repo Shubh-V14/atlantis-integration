@@ -25,7 +25,7 @@ jobs:
       - name: List Changed Files
         run: |
           # Fetch the list of modified files
-          CHANGED_FILES=$(/usr/bin/git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          CHANGED_FILES=$(/usr/bin/git status)
 
           # Print the list of changed files
           echo "Changed Files:"
