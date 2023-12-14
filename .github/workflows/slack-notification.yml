@@ -55,7 +55,7 @@ jobs:
       
       - name: Show Files
         run: |
-          FILES=$(git show "$GITHUB_SHA" --patch)
+          FILES= git show "$GITHUB_SHA" --patch
           
           # Print the list of changed files
           echo "FILES :"
