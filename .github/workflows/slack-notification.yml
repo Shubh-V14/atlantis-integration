@@ -28,6 +28,15 @@ jobs:
         # action/checkout@v2 checks-out your repo under github workspace.
         uses: actions/checkout@v2
 
+      - name: List Changed Files
+        run: |
+          # Fetch the list of modified files
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+
+          # Print the list of changed files
+          echo "Changed Files:"
+          echo "$CHANGED_FILES"
+
   # "notify" workflow for slack notification
   notify:
 
