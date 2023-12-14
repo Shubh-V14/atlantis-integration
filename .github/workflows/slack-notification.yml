@@ -36,10 +36,10 @@ jobs:
         run: |
           # Fetch the list of modified files
           echo "$BRANCH_NAME"
-          CHANGED_FILES=$(git log --patch)
+          CHANGED_FILES=$(git log --patch | grep "atlantis-integration")
 
           # Print the list of changed files
-          GREP_RESULT=$(echo "$CHANGED_FILES" | grep "atlantis-integration")
+          #GREP_RESULT=$(echo "$CHANGED_FILES" | grep "atlantis-integration")
 
           echo $GREP_RESULT
           echo "PRINTED OUTPUT"
