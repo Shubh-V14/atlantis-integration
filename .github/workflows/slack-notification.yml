@@ -32,12 +32,11 @@ jobs:
           CHANGED_FILE=$(git log --patch)
           echo "CHANGED_FILES=$CHANGED_FILE" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" > output.txt
-          echo "output_file=output.txt" >> $GITHUB_FILE
 
       - name: Get Outputs
         run: |
           echo "${{ steps.get_branch.outputs.BRANCH_NAME}} \n ${{steps.get_outputs.outputs.CHANGED_FILES}}"
-          cat "${{steps.get_outputs.outputs.output_file}}"
+          #cat "${{steps.get_outputs.outputs.output_file}}"
 
       - name: Iterate Over Lines
         id: iterate
