@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
 
       - name: Print Branch Name
         id: get_branch
