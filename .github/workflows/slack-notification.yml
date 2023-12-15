@@ -10,8 +10,6 @@ jobs:
     name: Notify on Slack
     runs-on: ubuntu-latest
 
-    if: ${{ github.base_ref == 'main' && github.event_name == 'pull_request' }}
-
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
