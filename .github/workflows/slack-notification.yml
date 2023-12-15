@@ -31,7 +31,12 @@ jobs:
         run: |
           echo "$BRANCH_NAME"
           CHANGED_FILE=$(git log --patch)
-          echo "CHANGED_FILES=$CHANGED_FILE" | grep "atlantis-integration" >> $GITHUB_ENV
+          {
+            echo 'CHANGED_FILES<<EOF'
+            echo "$CHANGED_FILE"
+            echo EOF
+          } >> "$GITHUB_ENV"
+
           #echo "CHANGED_FILES=$CHANGED_FILE" >> $GITHUB_ENV
 
       - name: Get Outputs
