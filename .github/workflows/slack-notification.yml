@@ -36,7 +36,7 @@ jobs:
             echo 'CHANGED_FILES<<EOF'
             echo ""
             #echo "$CHANGED_FILE" | grep -E "\+\+\+" | tr -d '+-'
-            echo "$CHANGED_FILE" | grep -e "atlantis-integration" -e "\+\+\+"  | tr -d '+-' | sed '1d'
+            echo "$CHANGED_FILE" | grep -e "atlantis-integration" -e "\+\+\+"  | tr -d '+-'
             echo EOF
           } >> "$GITHUB_ENV"
 
