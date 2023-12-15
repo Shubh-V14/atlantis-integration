@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types:
+      - opened
+      - closed
 
 jobs:
   notify:
@@ -24,6 +28,7 @@ jobs:
         id: get_outputs
         run: |
           echo "$BRANCH_NAME"
+          echo ${{github.event.push.head_commit.message}}
           CHANGED_FILE=$(git log --patch)
           echo "$CHANGED_FILE"
           {
