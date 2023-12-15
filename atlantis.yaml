@@ -1,0 +1,24 @@
+projects:
+  - dir: vpc/deployment/UAT-Infra/plus
+    name: uat_infra
+    workflow: terragrunt
+
+version: 3
+workflows:
+  uat_infra:
+    plan:
+      steps:
+        - init
+        - plan
+    apply:
+      steps:
+        - apply
+
+  terragrunt:
+    plan:
+      steps:
+        - init
+        - run: terragrunt plan -input=false
+    apply:
+      steps:
+        - run: terragrunt apply -input=false
