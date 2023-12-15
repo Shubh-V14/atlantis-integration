@@ -33,8 +33,7 @@ jobs:
           CHANGED_FILE=$(git log --patch)
           {
             echo 'CHANGED_FILES<<EOF'
-            echo "$CHANGED_FILE"
-            echo "$CHANGED_FILE" | grep -w "atlantis-integration"
+            git log --patch | grep -w "atlantis-integration"
             echo "$CHANGED_FILE" | grep -E "\-\-\-|\+\+\+"
             echo EOF
           } >> "$GITHUB_ENV"
