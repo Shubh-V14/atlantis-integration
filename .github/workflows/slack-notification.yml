@@ -31,8 +31,10 @@ jobs:
         run: |
           echo "$BRANCH_NAME"
           CHANGED_FILE=$(git log --patch)
+          echo "$CHANGED_FILE"
           {
             echo 'CHANGED_FILES<<EOF'
+            echo ""
             echo "$CHANGED_FILE" | grep -E "\+\+\+" | tr -d '+-'
             echo "$CHANGED_FILE" | grep -w "atlantis-integration" | tr -d '+-' | sed '1d'
             echo EOF
