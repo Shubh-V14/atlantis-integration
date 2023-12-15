@@ -30,9 +30,9 @@ jobs:
         id: get_outputs
         run: |
           CHANGED_FILE=$(git log --patch)
-          echo "::set-output name=CHANGED_FILES::$CHANGED_FILE"
+          echo "CHANGED_FILES=$CHANGED_FILE" >> $GITHUB_OUTPUT
           echo "$CHANGED_FILES" > output.txt
-          echo "::set-output name=output_file::output.txt"
+          echo "output_file=output.txt" >> $GITHUB_OUTPUT
 
       - name: Get Outputs
         run: |
