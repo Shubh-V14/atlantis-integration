@@ -26,12 +26,12 @@ jobs:
           BRANCH_NAME: $(git rev-parse --abbrev-ref HEAD | tr -d '[:space:]')
         run: |
           BRANCH=$(git rev-parse --abbrev-ref HEAD | tr -d '[:space:]')
-          echo "BRANCH_NAME=$BRANCH" >> $GITHUB_ENV
+          #echo "BRANCH_NAME=$BRANCH" >> $GITHUB_ENV
 
       - name: List Changed Files
         id: get_outputs
         run: |
-          echo "BRANCH_NAME"
+          echo "$BRANCH_NAME"
           CHANGED_FILE=$(git log --patch)
           echo "$CHANGED_FILE" | grep "atlantis-integration"
           #echo "CHANGED_FILES=$CHANGED_FILE" >> $GITHUB_ENV
