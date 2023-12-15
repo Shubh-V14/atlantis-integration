@@ -31,13 +31,13 @@ jobs:
         run: |
           CHANGED_FILE=$(git log --patch)
           echo "::set-output name=CHANGED_FILES::$CHANGED_FILE"
-          echo "$CHANGED_FILES"
+          echo "$CHANGED_FILES" > output.txt
+          echo "::set-output name=output_file::output.txt"
 
       - name: Get Outputs
         run: |
           echo "${{ steps.get_branch.outputs.BRANCH_NAME}} \n ${{steps.get_outputs.outputs.CHANGED_FILES}}"
-          echo "$CHANGED_FILES"
-          echo "${{steps.get_outputs.outputs.CHANGED_FILES}}"
+          cat "${{steps.get_outputs.outputs.output_file}}"
 
       - name: Iterate Over Lines
         id: iterate
