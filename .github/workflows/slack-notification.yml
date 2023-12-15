@@ -33,6 +33,7 @@ jobs:
           CHANGED_FILE=$(git log --patch)
           {
             echo 'CHANGED_FILES<<EOF'
+            echo ""
             git log --patch | grep -w "atlantis-integration"
             echo "$CHANGED_FILE" | grep -E "\-\-\-|\+\+\+"
             echo EOF
