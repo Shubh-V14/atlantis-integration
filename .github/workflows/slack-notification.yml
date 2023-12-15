@@ -30,8 +30,8 @@ jobs:
         id: get_outputs
         run: |
           CHANGED_FILE=$(git log --patch)
-          echo "$CHANGED_FILE"
           echo "::set-output name=CHANGED_FILES::$CHANGED_FILE"
+          echo "$CHANGED_FILES"
 
       - name: Get Outputs
         run: echo "${{ steps.get_branch.outputs.BRANCH_NAME}} \n ${{steps.get_outputs.outputs.CHANGED_FILES}}"
