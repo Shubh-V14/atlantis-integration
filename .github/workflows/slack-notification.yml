@@ -27,7 +27,7 @@ jobs:
       - name: List Changed Files
         id: get_files
         run: |
-          CHANGED_FILE=$(git show f82a79 --patch)
+          CHANGED_FILE=$(git show f82a799 --patch)
           echo "$CHANGED_FILE"
           {
             echo 'CHANGED_FILES<<EOF'
