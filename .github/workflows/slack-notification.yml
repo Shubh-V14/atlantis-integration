@@ -45,7 +45,7 @@ jobs:
 
       - name: Display modified files
         run: |
-          for file in "${{ join(github.event.head_commit.modified, '\n') }}"; do
+          for file in "${{ join(github.event.commits[0].modified, '\n') }}"; do
             echo "Modified File: $file"
           done
 
