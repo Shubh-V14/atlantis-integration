@@ -52,7 +52,7 @@ jobs:
         id: get_files2
         run: |
           CHANGED_FILES2=$(git diff-tree --no-commit-id --name-only -r HEAD)
-          echo "CHANGED_FILES2"
+          echo "$CHANGED_FILES2"
           echo "CHANGED_FILES2<<EOF" >> "$GITHUB_ENV"
           echo "$CHANGED_FILES2" | while IFS= read -r file; do
             echo "$file"
