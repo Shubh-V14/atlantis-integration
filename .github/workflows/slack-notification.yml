@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
 
       - name: Print Branch Name
         id: get_branch
@@ -51,7 +53,7 @@ jobs:
       - name: List Changed Files
         id: get_files2
         run: |
-          CHANGED_FILES2=$(git diff-tree --no-commit-id --name-only -r HEAD)
+          CHANGED_FILES2=$(git diff --name-only HEAD -- .')
           echo "$CHANGED_FILES2"
           echo "CHANGED_FILES2<<EOF" >> "$GITHUB_ENV"
           echo "$CHANGED_FILES2" | while IFS= read -r file; do
