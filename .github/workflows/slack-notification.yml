@@ -26,10 +26,13 @@ jobs:
           BRANCH=$(git rev-parse --abbrev-ref HEAD | tr -d '[:space:]')
           echo "BRANCH_NAME=$BRANCH" >> $GITHUB_ENV
 
+      - name: Install diff-so-fancy
+        run: sudo apt-get install -y diff-so-fancy
+
       - name: List Changed Content
         id: get_outputs
         run: |
-          CHANGED_FILE=$(git diff --no-prefix HEAD^ HEAD | grep -E '^[+-]' | grep -vE '^[-+]{3}')
+          CHANGED_FILE=$(git diff --no-prefix HEAD^ HEAD | grep -E '^[+-]' | grep -vE '^[-+]{3}' | diff-so-fancy)
           echo "$CHANGED_FILE"
           {
             echo 'CHANGED_CONTENT<<EOF'
