@@ -33,6 +33,7 @@ jobs:
           echo "$CHANGED_FILE"
           {
             echo 'CHANGED_CONTENT<<EOF'
+            echo ""
             echo "$CHANGED_FILE" | while IFS= read -r file; do
               echo "$file"
             done
@@ -58,6 +59,7 @@ jobs:
           CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
           {
             echo 'CHANGED_FILES<<EOF'
+            echo ""
             echo "$CHANGED_FILES" | while IFS= read -r file; do
               echo "$file"
             done
