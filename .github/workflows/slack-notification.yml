@@ -25,7 +25,7 @@ jobs:
           echo "BRANCH_NAME=$BRANCH" >> $GITHUB_ENV
 
       - name: List Changed Files
-        id: get_outputs
+        id: get_files
         run: |
           CHANGED_FILE=$(git log --patch)
           echo "$CHANGED_FILE"
@@ -33,10 +33,21 @@ jobs:
             echo 'CHANGED_FILES<<EOF'
             echo ""
             echo "$CHANGED_FILE" | grep -E "\+\+\+" | tr -d '+-'
-            echo "$CHANGED_FILE" | grep -w "atlantis-integration" | tr -d '+-' | sed '1d'
             echo EOF
           } >> "$GITHUB_ENV"
 
+      - name: List Changed Content
+        id: get_outputs
+        run: |
+          CHANGED_FILE=$(git log --patch)
+          echo "$CHANGED_FILE"
+          {
+            echo 'CHANGED_CONTENT<<EOF'
+            echo ""
+            echo "$CHANGED_FILE" | grep -w "atlantis-integration" | tr -d '+-' | sed '1d'
+            echo EOF
+          } >> "$GITHUB_ENV"
+          
       - name: Get Outputs
         run: |
           echo "$BRANCH_NAME \n $CHANGED_FILES"
@@ -46,5 +57,5 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          args: '{\"channel\":\"test-alerts\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Pull Request:* ${{ github.event.head_commit.message }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Files Edited:* ${{ env.CHANGED_FILES }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Contributor :* ${{ github.event.head_commit.author.name }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"<${{ github.event.head_commit.url }}|View Pull Request>\"}}]}'
+          args: '{\"channel\":\"test-alerts\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Pull Request:* ${{ github.event.head_commit.message }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Files Edited:* ${{ env.CHANGED_FILES }}\n*Content Edited:* ${{ env.CHANGED_CONTENT }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"*Contributor :* ${{ github.event.head_commit.author.name }}\"}},{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"<${{ github.event.head_commit.url }}|View Pull Request>\"}}]}'
         if: success()
