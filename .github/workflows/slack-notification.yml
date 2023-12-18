@@ -26,18 +26,6 @@ jobs:
           BRANCH=$(git rev-parse --abbrev-ref HEAD | tr -d '[:space:]')
           echo "BRANCH_NAME=$BRANCH" >> $GITHUB_ENV
 
-      - name: List Changed Files
-        id: get_files
-        run: |
-          CHANGED_FILE=$(git log --patch)
-          echo "$CHANGED_FILE"
-          {
-            echo 'CHANGED_FILES<<EOF'
-            echo ""
-            echo "$CHANGED_FILE" | grep -E "\+\+\+" | tr -d '+-'
-            echo EOF
-          } >> "$GITHUB_ENV"
-
       - name: List Changed Content
         id: get_outputs
         run: |
@@ -53,10 +41,10 @@ jobs:
       - name: List Changed Files
         id: get_files2
         run: |
-          CHANGED_FILES2=$(git diff-tree --no-commit-id --name-only -r HEAD)
-          echo "$CHANGED_FILES2"
-          echo "CHANGED_FILES2<<EOF" >> "$GITHUB_ENV"
-          echo "$CHANGED_FILES2" | while IFS= read -r file; do
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+          echo "$CHANGED_FILES"
+          echo "CHANGED_FILES<<EOF" >> "$GITHUB_ENV"
+          echo "$CHANGED_FILES" | while IFS= read -r file; do
             echo "$file"
           done >> "$GITHUB_ENV"
           echo "EOF" >> "$GITHUB_ENV"
