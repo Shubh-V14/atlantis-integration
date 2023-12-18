@@ -74,7 +74,12 @@ jobs:
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: "test-alerts"
-          slack-message: "GitHub build result"
+          slack-message: |
+            "*Pull Request:* ${{ github.event.head_commit.message }}
+            *Files Edited:* ${{ env.CHANGED_FILES }}
+            *Content Edited:* ${{ env.CHANGED_CONTENT }}
+            *Contributor :* ${{ github.event.head_commit.author.name }}
+            <${{ github.event.head_commit.url }}|View Pull Request>"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         if: success()
