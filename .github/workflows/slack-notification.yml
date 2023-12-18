@@ -71,7 +71,7 @@ jobs:
           echo "$BRANCH_NAME \n $CHANGED_FILES"
 
       - name: Notify on Slack
-        uses: rtCamp/action-slack-notify@v2
+        uses: slack/send-message@v2
         with:
           channel: "test-alerts"
           text: |
@@ -80,4 +80,7 @@ jobs:
             *Content Edited:* ${{ env.CHANGED_CONTENT }}
             *Contributor :* ${{ github.event.head_commit.author.name }}
             <${{ github.event.head_commit.url }}|View Pull Request>
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         if: success()
+
