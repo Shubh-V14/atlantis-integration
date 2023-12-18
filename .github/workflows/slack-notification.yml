@@ -71,7 +71,7 @@ jobs:
           echo "$BRANCH_NAME \n $CHANGED_FILES"
 
       - name: Notify on Slack
-        uses: abinoda/slack-action@master
+        uses: pullreminders/slack-action@master
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
