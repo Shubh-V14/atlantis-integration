@@ -71,7 +71,7 @@ jobs:
           echo "$BRANCH_NAME \n $CHANGED_FILES"
 
       - name: Notify on Slack
-        uses: rtCamp/action-slack-notify@v3
+        uses: rtCamp/action-slack-notify@v2
         with:
           channel: "test-alerts"
           text: |
