@@ -71,7 +71,7 @@ jobs:
           echo "$BRANCH_NAME \n $CHANGED_FILES"
 
       - name: Notify on Slack
-        uses: slack/send-message@v2
+        uses: slackapi/slack-github-action@v1.24.0
         with:
           channel: "test-alerts"
           text: |
