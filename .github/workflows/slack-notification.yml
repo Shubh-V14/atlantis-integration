@@ -43,11 +43,9 @@ jobs:
         run: |
           echo "$BRANCH_NAME \n $CHANGED_FILES"
 
-      - name: Display modified files
+      - name: Display entire payload
         run: |
-          for file in "${{ join(github.event.commits[0].modified, '\n') }}"; do
-            echo "Modified File: ${{ github.event.commits[0].modified }}"
-          done
+          echo "${{ toJson(github.event) }}"
 
       - name: Notify on Slack
         uses: abinoda/slack-action@master
