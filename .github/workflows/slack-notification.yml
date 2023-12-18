@@ -38,20 +38,34 @@ jobs:
             echo EOF
           } >> "$GITHUB_ENV"
 
+      #- name: List Changed Files
+       # id: get_files
+        #run: |
+         # CHANGED_FILE=$(git log --patch)
+          #echo "$CHANGED_FILE"
+          #{
+           # echo 'CHANGED_FILES<<EOF'
+            #echo ""
+            #echo "$CHANGED_FILE" | grep -E "\+\+\+" | tr -d '+-'
+            #echo EOF
+          #} >> "$GITHUB_ENV"
+
+
       - name: List Changed Files
-        id: get_files2
+        id: get_files
         run: |
           CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
-          echo "$CHANGED_FILES"
-          echo "CHANGED_FILES<<EOF" >> "$GITHUB_ENV"
-          echo "$CHANGED_FILES" | while IFS= read -r file; do
-            echo "$file"
-          done >> "$GITHUB_ENV"
-          echo "EOF" >> "$GITHUB_ENV"
+          {
+            echo 'CHANGED_FILES<<EOF'
+            echo "$CHANGED_FILES" | while IFS= read -r file; do
+              echo "$file"
+            done
+            echo "EOF" 
+          } >> "$GITHUB_ENV"
 
       - name: Get Outputs
         run: |
-          echo "$BRANCH_NAME \n $CHANGED_FILES2"
+          echo "$BRANCH_NAME \n $CHANGED_FILES"
 
       - name: Notify on Slack
         uses: abinoda/slack-action@master
