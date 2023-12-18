@@ -28,13 +28,14 @@ jobs:
 
       - name: Install diff-so-fancy
         run: |
-          git clone https://github.com/so-fancy/diff-so-fancy.git
-          export PATH="$PATH:$(pwd)/diff-so-fancy/bin"
+          curl -o diff-so-fancy https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+          chmod +x diff-so-fancy
+          export PATH="$PATH:$(pwd)"
 
       - name: List Changed Content
         id: get_outputs
         run: |
-          CHANGED_FILE=$(git diff --no-prefix HEAD^ HEAD | grep -E '^[+-]' | grep -vE '^[-+]{3}' | diff-so-fancy)
+          CHANGED_FILE=$(git diff --no-prefix HEAD^ HEAD | grep -E '^[+-]' | grep -vE '^[-+]{3}' | ./diff-so-fancy)
           echo "$CHANGED_FILE"
           {
             echo 'CHANGED_CONTENT<<EOF'
