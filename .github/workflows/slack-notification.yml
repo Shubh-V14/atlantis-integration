@@ -73,7 +73,7 @@ jobs:
       - name: Notify on Slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel: "test-alerts"
+          channel-id: "test-alerts"
           text: |
             *Pull Request:* ${{ github.event.head_commit.message }}
             *Files Edited:* ${{ env.CHANGED_FILES }}
