@@ -27,8 +27,6 @@ jobs:
       - name: List Changed Files
         id: get_outputs
         run: |
-          echo "$BRANCH_NAME"
-          echo ${{github.event.head_commit.message}}
           CHANGED_FILE=$(git log --patch)
           echo "$CHANGED_FILE"
           {
