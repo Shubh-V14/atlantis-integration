@@ -76,7 +76,7 @@ jobs:
           channel-id: "test-alerts"
           payload: |
             {
-              "channel": "test-alerts",
+              "text": "GitHub Action build result"
               "blocks": [
                 {
                   "type": "section",
