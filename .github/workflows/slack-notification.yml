@@ -46,7 +46,7 @@ jobs:
       - name: Display modified files
         run: |
           for file in "${{ join(github.event.commits[0].modified, '\n') }}"; do
-            echo "Modified File: $file"
+            echo "Modified File: ${{ github.event.commits[0].modified }}"
           done
 
       - name: Notify on Slack
