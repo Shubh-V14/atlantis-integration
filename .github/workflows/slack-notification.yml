@@ -52,7 +52,7 @@ jobs:
       - name: List Changed Files
         id: get_files
         run: |
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD)
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
           {
             echo 'CHANGED_FILES<<EOF'
             echo ""
